@@ -19,6 +19,7 @@ test: build
 		--name lambda \
 		--volume $(shell pwd)/:/local \
 		--env GDAL_DATA=/var/task/share/gdal \
+		--env-file ./sample.env \
 		-itd \
 		lambci/lambda:build-python3.6 bash
 	docker exec -it lambda bash -c 'unzip -q /local/package.zip -d /var/task/'
