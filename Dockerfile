@@ -5,8 +5,7 @@ ENV LANG=en_US.UTF-8 \
 
 ENV PACKAGE_PREFIX /tmp/python
 
-COPY hander.py $PACKAGE_PREFIX/hander.py
-RUN pip3 install rasterio --no-binary numpy -t $PACKAGE_PREFIX -U
+RUN pip3 install rasterio -t $PACKAGE_PREFIX -U
 
 ################################################################################
 #                            REDUCE PACKAGE SIZE                               #
@@ -24,6 +23,9 @@ RUN rm -rdf $PACKAGE_PREFIX/boto3/ \
 RUN find $PACKAGE_PREFIX -type f -name '*.pyc' | while read f; do n=$(echo $f | sed 's/__pycache__\///' | sed 's/.cpython-36//'); cp $f $n; done;
 RUN find $PACKAGE_PREFIX -type d -a -name '__pycache__' -print0 | xargs -0 rm -rf
 RUN find $PACKAGE_PREFIX -type f -a -name '*.py' -print0 | xargs -0 rm -f
+
+
+COPY handler.py $PACKAGE_PREFIX/handler.py
 
 ################################################################################
 #                              CREATE ARCHIVE                                  #
